@@ -17,10 +17,27 @@ namespace MetersCenter.Core_.Repos
             _context = context;
         }
 
+        public async Task<IEnumerable<MeterData>> AddMetersRange(IEnumerable<MeterData> meters)
+        {
+            await _context.MeterData.AddRangeAsync(meters);
+            _context.SaveChanges();
+            return meters;
+        }
+
         public async Task<MeterData> GetById(int id)
         {
             var result = await _context.MeterData.FirstOrDefaultAsync(x => x.Id == id);
             return result;
+        }
+
+        public List<MeterData> GetMetersByRecordId(int id)
+        {
+            return _context.MeterData.Where(x => x.SuppliesId == id).ToList();
+        }
+
+        public async Task<IEnumerable<MeterData>> GetMetersBySerial(string serial)
+        {
+            return await _context.MeterData.Where(x=> x.MeterSerial == serial).ToListAsync();
         }
 
         public async Task<MeterData> UpdateMeter(int id, MeterData meter)
