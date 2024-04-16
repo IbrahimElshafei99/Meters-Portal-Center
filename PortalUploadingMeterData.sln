@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalUploadingMeterData", "PortalUploadingMeterData\PortalUploadingMeterData.csproj", "{4A98D3A6-685E-4C2A-A459-CF20492B113A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPIConsumer", "WebAPIConsumer\WebAPIConsumer.csproj", "{4DCC7631-DDF1-4C98-B23A-15DDF342CD32}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetersCenter.Data", "MetersCenter.Data\MetersCenter.Data.csproj", "{54318B15-FBB7-41DE-87EC-D25E09D1ECA5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetersCenter.Business", "MetersCenter.Business\MetersCenter.Business.csproj", "{370C0346-79E2-4BE4-9288-71865C90A7D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetersCenter.Core_", "MetersCenter.Core_\MetersCenter.Core_.csproj", "{08EED88B-1BC1-442B-B7DA-FEF95C673CBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetersCenter.API", "MetersCenter.API\MetersCenter.API.csproj", "{2EB95777-A650-49EC-8D64-514C88ECDB63}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A98D3A6-685E-4C2A-A459-CF20492B113A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A98D3A6-685E-4C2A-A459-CF20492B113A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A98D3A6-685E-4C2A-A459-CF20492B113A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A98D3A6-685E-4C2A-A459-CF20492B113A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DCC7631-DDF1-4C98-B23A-15DDF342CD32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DCC7631-DDF1-4C98-B23A-15DDF342CD32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DCC7631-DDF1-4C98-B23A-15DDF342CD32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DCC7631-DDF1-4C98-B23A-15DDF342CD32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54318B15-FBB7-41DE-87EC-D25E09D1ECA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54318B15-FBB7-41DE-87EC-D25E09D1ECA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54318B15-FBB7-41DE-87EC-D25E09D1ECA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54318B15-FBB7-41DE-87EC-D25E09D1ECA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{370C0346-79E2-4BE4-9288-71865C90A7D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{370C0346-79E2-4BE4-9288-71865C90A7D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{370C0346-79E2-4BE4-9288-71865C90A7D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{370C0346-79E2-4BE4-9288-71865C90A7D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08EED88B-1BC1-442B-B7DA-FEF95C673CBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08EED88B-1BC1-442B-B7DA-FEF95C673CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08EED88B-1BC1-442B-B7DA-FEF95C673CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08EED88B-1BC1-442B-B7DA-FEF95C673CBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EB95777-A650-49EC-8D64-514C88ECDB63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EB95777-A650-49EC-8D64-514C88ECDB63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EB95777-A650-49EC-8D64-514C88ECDB63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EB95777-A650-49EC-8D64-514C88ECDB63}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F16BF13B-4F9B-4011-A9BA-BC9932F9CB45}
+	EndGlobalSection
+EndGlobal

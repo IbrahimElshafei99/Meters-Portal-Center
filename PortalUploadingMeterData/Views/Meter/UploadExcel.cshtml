@@ -1,0 +1,78 @@
+﻿
+<center>
+    <h2>Upload File</h2>
+    <h4>Excel File should has 2 columns:</h4>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <table>
+        <thead>
+            <tr>
+                <th>Meter Serial</th>
+                <th>Meter Public Key</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</center>
+<form id="myForm" method="post" enctype="multipart/form-data">
+    <div class="rom">
+        <label>Select Excel File</label>
+        <input type="file" name="file" />
+    </div>
+    @Html.DropDownList("LogOffTime", new List<SelectListItem>
+    {
+    new SelectListItem{ Text="ElSewedy", Value = "ElSewedy" },
+    new SelectListItem{ Text="Elster Group", Value = "Elster Group" },
+    new SelectListItem{ Text="Itron", Value = "Itron" },
+    new SelectListItem{ Text="Sappel", Value = "Sappel" },
+    new SelectListItem{ Text="Arad Group", Value = "Arad Group" },
+    new SelectListItem{ Text="Zenner", Value = "Zenner" },
+    new SelectListItem{ Text="Kamstrup", Value = "Kamstrup" },
+    new SelectListItem{ Text="Actaris", Value = "Actaris" },
+    new SelectListItem{ Text="Siemens", Value = "Siemens" },
+    new SelectListItem{ Text="Neptune Technology Group", Value = "Neptune Technology Group" }
+    }, "Select Company")
+    
+    <br />
+    <div class="rom">
+        <div class="col-3">
+            <input type="submit" asp-controller="Meter" asp-action="UploadExcel" class="btn btn-dark" value="Upload Excel File" />
+        </div>
+    </div>
+
+</form>
+<br />
+<form asp-controller="Meter" asp-action="GetMetersById" method="get">
+    <label for="id">Get meters by record number: </label>
+    <br />
+    <input type="text" id="id" name="id" />
+    <button class="btn btn-outline-info" type="submit">Submit</button>
+</form>
+
+
+
