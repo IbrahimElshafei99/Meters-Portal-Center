@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PortalUploadingMeterData.Migrations
+namespace MetersCenter.Core_.Migrations
 {
-    public partial class init : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Company",
+                name: "MeterProviders",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -19,22 +19,32 @@ namespace PortalUploadingMeterData.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Company", x => x.Id);
+                    table.PrimaryKey("PK_MeterProviders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Inspection",
+                name: "Supplies",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StratDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UploadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UploadUsername = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InspectionStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    InspectionEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    InspectorUsername = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MeterProviderId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Inspection", x => x.Id);
+                    table.PrimaryKey("PK_Supplies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Supplies_MeterProviders_MeterProviderId",
+                        column: x => x.MeterProviderId,
+                        principalTable: "MeterProviders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,34 +53,23 @@ namespace PortalUploadingMeterData.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UploadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UploadUsername = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MeterSerial = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MeterPublicKey = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CompanyId = table.Column<int>(type: "int", nullable: false),
-                    InspectionId = table.Column<int>(type: "int", nullable: false)
+                    MeterSerial = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MeterPublicKey = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SuppliesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MeterData", x => x.Id);
-                    table.UniqueConstraint("AK_MeterData_MeterSerial_CompanyId", x => new { x.MeterSerial, x.CompanyId });
                     table.ForeignKey(
-                        name: "FK_MeterData_Company_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Company",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MeterData_Inspection_InspectionId",
-                        column: x => x.InspectionId,
-                        principalTable: "Inspection",
+                        name: "FK_MeterData_Supplies_SuppliesId",
+                        column: x => x.SuppliesId,
+                        principalTable: "Supplies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "Company",
+                table: "MeterProviders",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
@@ -87,16 +86,14 @@ namespace PortalUploadingMeterData.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_MeterData_CompanyId_MeterPublicKey",
+                name: "IX_MeterData_SuppliesId",
                 table: "MeterData",
-                columns: new[] { "CompanyId", "MeterPublicKey" },
-                unique: true,
-                filter: "[MeterPublicKey] IS NOT NULL");
+                column: "SuppliesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MeterData_InspectionId",
-                table: "MeterData",
-                column: "InspectionId");
+                name: "IX_Supplies_MeterProviderId",
+                table: "Supplies",
+                column: "MeterProviderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -105,10 +102,10 @@ namespace PortalUploadingMeterData.Migrations
                 name: "MeterData");
 
             migrationBuilder.DropTable(
-                name: "Company");
+                name: "Supplies");
 
             migrationBuilder.DropTable(
-                name: "Inspection");
+                name: "MeterProviders");
         }
     }
 }

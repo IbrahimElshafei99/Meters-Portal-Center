@@ -11,8 +11,8 @@ namespace MetersCenter.Business.Interfaces
     {
         Task<IEnumerable<MeterData>> AddMetersRange(IEnumerable<MeterData> meters);
         Task<MeterData> GetById(int id);
-        List<MeterData> GetMetersByRecordId(int id);
-        Task<IEnumerable<MeterData>> GetMetersBySerial(string serial);
+        IEnumerable<MeterData> GetMetersByRecordId(int id);
+        Task<IEnumerable<object>> GetMeterDetailsBySerial(string providerName, string serial);
         Task<MeterData> UpdateMeter(int id, MeterData meter);
     }
 }

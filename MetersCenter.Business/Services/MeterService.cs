@@ -13,9 +13,11 @@ namespace MetersCenter.Business.Services
     public class MeterService : IMeterService
     {
         private readonly IMeterDataRepo _dataRepo;
-        public MeterService(IMeterDataRepo dataRepo)
+        private readonly ISuppliesRepo _suppliesRepo;
+        public MeterService(IMeterDataRepo dataRepo, ISuppliesRepo suppliesRepo)
         {
             _dataRepo = dataRepo;
+            _suppliesRepo = suppliesRepo;
         }
 
         public async Task<IEnumerable<MeterData>> AddMetersRange(IEnumerable<MeterData> meters)
@@ -28,14 +30,16 @@ namespace MetersCenter.Business.Services
             return await _dataRepo.GetById(id);
         }
 
-        public List<MeterData> GetMetersByRecordId(int id)
+        public IEnumerable<MeterData> GetMetersByRecordId(int id)
         {
             return _dataRepo.GetMetersByRecordId(id);
         }
 
-        public async Task<IEnumerable<MeterData>> GetMetersBySerial(string serial)
+        public async Task<IEnumerable<object>> GetMeterDetailsBySerial(string providerName ,string serial)
         {
-            return await _dataRepo.GetMetersBySerial(serial);
+            var supps = _suppliesRepo.GetSuppliesByProviderName(providerName);
+
+            return await _dataRepo.GetMeterDetailsBySerial(supps, serial);
         }
 
         public async Task<MeterData> UpdateMeter(int id, MeterData meter)

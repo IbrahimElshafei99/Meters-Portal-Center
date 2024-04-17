@@ -14,7 +14,7 @@ namespace MetersCenter.Core_.Interfaces
         Task<IEnumerable<Supplies>> GetAllSupplies();
         Task<Supplies> EditSupply(Supplies supply);
         Task<IEnumerable<Supplies>> GetSuppliesByID(int id);
-        Task<IEnumerable<Supplies>> GetSuppliesByProviderName(string name);
+        IEnumerable<Supplies> GetSuppliesByProviderName(string name);
         Task<IEnumerable<Supplies>> GetSuppliesByIdAndProviderName(string name, int id);
     }
 }

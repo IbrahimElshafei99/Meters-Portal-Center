@@ -15,10 +15,18 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\Uploads\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MetersCenter.API\MetersCenter.API.csproj" />
+    <ProjectReference Include="..\MetersCenter.Business\MetersCenter.Business.csproj" />
+    <ProjectReference Include="..\MetersCenter.Core_\MetersCenter.Core_.csproj" />
+    <ProjectReference Include="..\MetersCenter.Data\MetersCenter.Data.csproj" />
   </ItemGroup>
 
 </Project>

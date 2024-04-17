@@ -1,0 +1,108 @@
+﻿@model IEnumerable<MetersCenter.Data.MeterData>
+
+@{
+    ViewData["Title"] = "MetersList";
+}
+
+<div class="container">
+    <h1 class="text-center mb-4">MetersList</h1>
+    @if (TempData["SuccessMetersRows"] != null)
+    {
+        <h3 class="text-center mb-4">Success Upload @TempData["SuccessMetersRows"] Meters</h3>
+    }
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.MeterSerial)</th>
+                <th>@Html.DisplayNameFor(model => model.MeterPublicKey)</th>
+                <th>@Html.DisplayNameFor(model => model.SuppliesId)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.MeterSerial)</td>
+                    <td>@Html.DisplayFor(modelItem => item.MeterPublicKey)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SuppliesId)</td>
+                    <td>
+                        <a asp-action="Edit" class="btn btn-outline-info">Edit</a>
+                        <a asp-action="Details" class="btn btn-outline-info">Details</a>
+                        <a asp-action="Delete" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 36px;
+        font-weight: bold;
+        color: #0a3d95;
+    }
+
+    h3 {
+        font-size: 24px;
+        color: #0a3d95;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        .table th, .table td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .table td {
+            background-color: #fff;
+            color: #212529;
+        }
+
+    .btn {
+        padding: 5px 15px;
+        border-radius: 5px;
+    }
+
+    .btn-outline-info {
+        border: 1px solid #0a3d95;
+        color: #0a3d95;
+    }
+
+        .btn-outline-info:hover {
+            background-color: #0a3d95;
+            color: #fff;
+        }
+
+    .btn-outline-danger {
+        border: 1px solid #dc3545;
+        color: #dc3545;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+</style>
