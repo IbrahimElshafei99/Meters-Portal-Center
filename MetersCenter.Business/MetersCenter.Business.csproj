@@ -19,7 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MetersCenter.Core_\MetersCenter.Core_.csproj" />
     <ProjectReference Include="..\MetersCenter.Data\MetersCenter.Data.csproj" />
-    <ProjectReference Include="..\PortalUploadingMeterData\PortalUploadingMeterData.csproj" />
   </ItemGroup>
 
 </Project>

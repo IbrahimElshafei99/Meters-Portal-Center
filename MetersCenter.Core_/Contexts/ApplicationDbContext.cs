@@ -10,7 +10,16 @@ namespace MetersCenter.Core_.Contexts
 {
     public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext() { }
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=IBRAHIM-SHAFEI\\SQLEXPRESS;Database=PortalMetersCenter;Trusted_Connection=True;TrustServerCertificate=True;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

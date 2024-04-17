@@ -1,0 +1,139 @@
+﻿@model IEnumerable<MetersCenter.Data.Supplies>
+
+@{
+    ViewData["Title"] = "GetAllSupplies";
+}
+
+<div class="container">
+    <h1 class="text-center mb-4">All Supplies</h1>
+
+    <form asp-controller="Supplies" asp-action="FilterSupplies" method="post" class="mb-4">
+        <div class="form-inline" >
+            <div class="form-group mr-2">
+                <label for="supplyId" class="mr-2">Supply Number:</label>
+                <input type="text" class="form-control" id="supplyId" name="supplyId">
+            </div>
+            <div class="form-group mr-2">
+                <label for="providerName" class="mr-2">Meters Provider:</label>
+                <input type="text" class="form-control" id="providerName" name="providerName">
+            </div>
+            <button type="submit" class="btn btn-dark" >Search</button>
+        </div>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Supply Number</th>
+                <th>Created Date</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Meter Provider</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UploadDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UploadUsername)</td>
+                    <td>@Html.DisplayFor(modelItem => item.status)</td>
+                    <td>@Html.DisplayFor(modelItem => item.MeterProviders.Name)</td>
+                    <td class="align-middle">
+                        <a class="btn btn-outline-info btn-sm" asp-action="EditSupply" asp-route-id="@item.Id"><i class="bi bi-eye"></i> Edit</a>
+                        <a class="btn btn-outline-primary btn-sm" asp-controller="Meter" asp-action="MetersList" asp-route-id="@item.Id"><i class="bi bi-trash"></i> View Meters</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 36px;
+        font-weight: bold;
+        color: #0a3d95;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        .table th, .table td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .table td {
+            background-color: #fff;
+            color: #212529;
+        }
+
+    .btn {
+        padding: 5px 15px;
+        border-radius: 5px;
+    }
+
+    .btn-outline-info {
+        border: 1px solid #0a3d95;
+        color: #0a3d95;
+    }
+
+        .btn-outline-info:hover {
+            background-color: #0a3d95;
+            color: #fff;
+        }
+
+    .btn-outline-primary {
+        border: 1px solid #007bff;
+        color: #007bff;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+    .btn-dark {
+        background-color: #0a3d95;
+        color: #fff;
+        border: none;
+        margin:5px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-bottom: 0;
+        margin:5px;
+    }
+
+    .form-inline{
+        margin-bottom: 0;
+        display:flex;
+        justify-content: center;
+    }
+    
+
+</style>

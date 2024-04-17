@@ -1,0 +1,152 @@
+﻿@model MetersCenter.Data.Supplies
+
+@{
+    ViewData["Title"] = "EditSupply";
+}
+
+<div class="container">
+    <h1 class="text-center mb-4">Edit Supply</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="EditSupply">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label">Supply Number</label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UploadDate" class="control-label">Created Date</label>
+                    <input asp-for="UploadDate" class="form-control" />
+                    <span asp-validation-for="UploadDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="status" class="control-label">Status</label>
+                    <select asp-for="status" name="status" id="status" class="form-control">
+                        <option value="New">New</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Done">Done</option>
+                    </select>
+                    <span asp-validation-for="status" class="text-danger"></span>
+                </div>
+
+                <div class="form-group d-none">
+                    <label asp-for="InspectionStartDate" class="control-label">Inspection Start Date</label>
+                    <input asp-for="InspectionStartDate" class="form-control" />
+                    <span asp-validation-for="InspectionStartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group d-none">
+                    <label asp-for="InspectionEndDate" class="control-label">Inspection End Date</label>
+                    <input asp-for="InspectionEndDate" class="form-control" />
+                    <span asp-validation-for="InspectionEndDate" class="text-danger"></span>
+                </div>
+                <div class="form-group d-none">
+                    <label asp-for="InspectorUsername" class="control-label">Inspector Username</label>
+                    <input asp-for="InspectorUsername" class="form-control" />
+                    <span asp-validation-for="InspectorUsername" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.MeterProviders.Name" class="control-label">Meters Provider</label>
+                    <input asp-for="@Model.MeterProviders.Name" class="form-control" />
+                    <span asp-validation-for="@Model.MeterProviders.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group text-center">
+                    <input type="submit" value="Save" class="btn btn-primary btn-lg" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 36px;
+        font-weight: bold;
+        color: #0a3d95;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        .table th, .table td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .table td {
+            background-color: #fff;
+            color: #212529;
+        }
+
+    .btn {
+        padding: 5px 15px;
+        border-radius: 5px;
+    }
+
+    .btn-outline-info {
+        border: 1px solid #0a3d95;
+        color: #0a3d95;
+    }
+
+        .btn-outline-info:hover {
+            background-color: #0a3d95;
+            color: #fff;
+        }
+
+    .btn-outline-primary {
+        border: 1px solid #007bff;
+        color: #007bff;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+    .btn-dark {
+        background-color: #0a3d95;
+        color: #fff;
+        border: none;
+        margin: 5px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-bottom: 0;
+        margin: 5px;
+    }
+
+    .form-inline {
+        margin-bottom: 0;
+        display: flex;
+        justify-content: center;
+    }
+</style>

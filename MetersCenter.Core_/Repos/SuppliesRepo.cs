@@ -34,7 +34,7 @@ namespace MetersCenter.Core_.Repos
 
         public async Task<IEnumerable<Supplies>> GetAllSupplies()
         {
-            return await _context.Supplies.ToListAsync();
+            return await _context.Supplies.Include(x=>x.MeterProviders).ToListAsync();
         }
 
         public async Task<Supplies> EditSupply(Supplies supply)
@@ -42,7 +42,7 @@ namespace MetersCenter.Core_.Repos
             Supplies newSupply = await _context.Supplies.FirstOrDefaultAsync(x=>x.Id == supply.Id);
             if (newSupply != null)
             {
-                if(supply.status != "New")
+                if(supply.status == "In Progress")
                 {
                     newSupply.InspectionStartDate = DateTime.Now;
                     newSupply.status = supply.status;
@@ -53,7 +53,6 @@ namespace MetersCenter.Core_.Repos
                     newSupply.status = supply.status;
                 }
                 newSupply.InspectorUsername = supply.InspectorUsername;
-                newSupply.MeterProviderId = supply.MeterProviderId;
 
                 _context.Supplies.Update(newSupply);
                 _context.SaveChanges();
@@ -62,18 +61,26 @@ namespace MetersCenter.Core_.Repos
             return supply;
         }
 
-        public async Task<IEnumerable<Supplies>> GetSuppliesByID(int id)// can search by compId, serial,..
+        public async Task<Supplies> GetSupplyID(int id)// can search by compId, serial,..
         {
-            return await _context.Supplies.Where(x=> x.Id == id).ToListAsync();
+            return await _context.Supplies.Include(x=>x.MeterProviders).FirstOrDefaultAsync(x=> x.Id == id);
         }
-        public async Task<IEnumerable<Supplies>> GetSuppliesByProviderName(string name)
+        public IEnumerable<Supplies> GetSuppliesByProviderName(string name)
         {
-            return await _context.Supplies.Include(x=> x.MeterProviders).Where(x => x.MeterProviders.Name.Contains(name)).ToListAsync();
+            return _context.Supplies.Include(x=> x.MeterProviders).Where(x => x.MeterProviders.Name.Contains(name)).ToList();
         }
         public async Task<IEnumerable<Supplies>> GetSuppliesByIdAndProviderName(string name, int id)
         {
-            return await _context.Supplies.Include(x => x.MeterProviders).Where(x => x.MeterProviders.Name.Contains(name) && x.Id==id).ToListAsync();
+            if(id == 0 && name != "")
+            {
+                return await _context.Supplies.Include(x => x.MeterProviders).Where(x => x.MeterProviders.Name.Contains(name)).ToListAsync();
+            }
+            else
+            {
+                return await _context.Supplies.Where(x => x.Id == id).ToListAsync();
+            }
         }
+
         //public async Task<IEnumerable<Supplies>> GetSuppliesBySerial(int serial)
         //{
         //    //return await _context.Supplies.Where(x => x.Id == id).ToListAsync();
