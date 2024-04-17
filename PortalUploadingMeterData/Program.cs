@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PortalUploadingMeterData.Models;
+using MetersCenter.Core_;
+using MetersCenter.Data;
+using MetersCenter.Core_.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 ConfigurationManager configuration = builder.Configuration;
-builder.Services.AddDbContext<AppDbContext>(options=> options.UseSqlServer(configuration.GetConnectionString("ConnStr")));
+builder.Services.AddDbContext<ApplicationDbContext>(options=> options.UseSqlServer(configuration.GetConnectionString("ConnStr")));
 
 var app = builder.Build();
 
@@ -28,6 +31,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Meter}/{action=UploadExcel}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
