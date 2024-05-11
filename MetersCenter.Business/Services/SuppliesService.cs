@@ -25,7 +25,11 @@ namespace MetersCenter.Business.Services
             _meterProviderRepo = meterProviderRepo;
         }
 
+<<<<<<< HEAD
         public async Task<(int ,int)> UploadExcelSheet(Stream excelFileStream, string providerName)
+=======
+        public async Task<(int ,IEnumerable<MeterData>)> UploadExcelSheet(Stream excelFileStream, string providerName)
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
         {
             var compId = await _meterProviderRepo.GetProviderIdByName(providerName);
             Supplies supplies = new Supplies()
@@ -79,12 +83,21 @@ namespace MetersCenter.Business.Services
                     await _meterDataRepo.AddMetersRange(batchData);
                 }
             }
+<<<<<<< HEAD
             var allMetersInRecord = await _meterDataRepo.GetMetersByRecordId(supplies.Id);
             supplies.MeterData = allMetersInRecord.ToList();
             await _suppliesRepo.AttachSupply(supplies); 
 
             int successRows = batchSerials.Count();
             return (successRows, supplies.Id);
+=======
+            var allMetersInRecord = _meterDataRepo.GetMetersByRecordId(supplies.Id);
+            supplies.MeterData = allMetersInRecord.ToList();
+            await _suppliesRepo.AttachSupply(supplies);
+
+            int successRows = batchSerials.Count();
+            return (successRows, allMetersInRecord);
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
         }
         //private void SaveBatchData(List<Data.MeterData> batch)
         //{

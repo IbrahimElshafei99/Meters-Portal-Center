@@ -7,6 +7,7 @@
 <div class="container">
     <h1 class="text-center mb-4">All Supplies</h1>
 
+<<<<<<< HEAD
     <form asp-controller="Supplies" asp-action="FilterSupplies" method="post" class="mb-4">
         <div class="form-inline" >
             <div class="form-group mr-2">
@@ -29,6 +30,16 @@
                 <th>User</th>
                 <th>Status</th>
                 <th>Meter Provider</th>
+=======
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Id)</th>
+                <th>@Html.DisplayNameFor(model => model.UploadDate)</th>
+                <th>@Html.DisplayNameFor(model => model.UploadUsername)</th>
+                <th>@Html.DisplayNameFor(model => model.status)</th>
+                <th>@Html.DisplayNameFor(model => model.MeterProviderId)</th>
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
                 <th></th>
             </tr>
         </thead>
@@ -40,7 +51,11 @@
                     <td>@Html.DisplayFor(modelItem => item.UploadDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.UploadUsername)</td>
                     <td>@Html.DisplayFor(modelItem => item.status)</td>
+<<<<<<< HEAD
                     <td>@Html.DisplayFor(modelItem => item.MeterProviders.Name)</td>
+=======
+                    <td>@Html.DisplayFor(modelItem => item.MeterProviderId)</td>
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
                     <td class="align-middle">
                         <a class="btn btn-outline-info btn-sm" asp-action="EditSupply" asp-route-id="@item.Id"><i class="bi bi-eye"></i> Edit</a>
                         <a class="btn btn-outline-primary btn-sm" asp-controller="Meter" asp-action="MetersList" asp-route-id="@item.Id"><i class="bi bi-trash"></i> View Meters</a>
@@ -113,6 +128,7 @@
             color: #fff;
         }
 
+<<<<<<< HEAD
     .btn-dark {
         background-color: #0a3d95;
         color: #fff;
@@ -136,4 +152,6 @@
     }
     
 
+=======
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
 </style>

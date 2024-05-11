@@ -1,5 +1,8 @@
 ﻿using MetersCenter.Business.Interfaces;
+<<<<<<< HEAD
 using MetersCenter.Data;
+=======
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
 using Microsoft.AspNetCore.Mvc;
 
 namespace PortalUploadingMeterData.Controllers
@@ -29,14 +32,21 @@ namespace PortalUploadingMeterData.Controllers
             {
                 var uploadedMeters = await _suppliesService.UploadExcelSheet(file.OpenReadStream(), compName);
                 TempData["SuccessMetersRows"] = uploadedMeters.Item1;
+<<<<<<< HEAD
                 return RedirectToAction("MetersList", "Meter", new { id = uploadedMeters.Item2 });
             }
             catch (Exception ex) 
+=======
+                return RedirectToAction("MetersList", "Meter", uploadedMeters.Item2.Where(x => true).Select(x => x.SuppliesId));
+            }
+            catch (Exception ex)
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
             {
                 return StatusCode(500, $"Error uploading file: {ex.Message}");
             }
         }
 
+<<<<<<< HEAD
         private static IEnumerable<Supplies> ListOfSupplies = new List<Supplies>();
         public async Task<IActionResult> GetAllSupplies()
         {
@@ -75,6 +85,17 @@ namespace PortalUploadingMeterData.Controllers
                 return RedirectToAction("GetAllSupplies");
             }
             return View(supply);
+=======
+        public async Task<IActionResult> GetAllSupplies()
+        {
+            var supps = await _suppliesService.GetAllSupplies();
+            return View(supps);
+        }
+        public async Task<IActionResult> SuppliesList(int id)
+        {
+            var supps = await _suppliesService.GetSuppliesByID(id);
+            return View(supps);
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
         }
     }
 }
