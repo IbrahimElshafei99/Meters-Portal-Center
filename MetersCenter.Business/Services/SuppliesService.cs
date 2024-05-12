@@ -126,5 +126,10 @@ namespace MetersCenter.Business.Services
         {
             return await _suppliesRepo.GetSuppliesByIdAndProviderName(name, id);
         }
+
+        public async Task<string> GetProviderNameBySupplyId(int id)
+        {
+            return await _meterProviderRepo.GetProviderNameById(id);
+        }
     }
 }

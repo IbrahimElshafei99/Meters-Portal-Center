@@ -57,6 +57,10 @@ namespace PortalUploadingMeterData.Controllers
         public async Task<IActionResult> FilterSupplies(string providerName, int supplyId)
         {
             ListOfSupplies = await _suppliesService.GetSuppliesByIdAndProviderName(providerName, supplyId);
+            
+            if(ListOfSupplies.Count()==1)
+                TempData["providerName"]= await _suppliesService.GetProviderNameBySupplyId(supplyId);
+            
             return RedirectToAction("GetAllSupplies", "Supplies");
         }
 

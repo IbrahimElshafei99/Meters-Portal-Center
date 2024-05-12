@@ -17,6 +17,6 @@ namespace MetersCenter.Business.Interfaces
         Task<Supplies> GetSupplyID(int id);
         IEnumerable<Supplies> GetSuppliesByProviderName(string name);
         Task<IEnumerable<Supplies>> GetSuppliesByIdAndProviderName(string name, int id);
-
+        Task<string> GetProviderNameBySupplyId(int id);
     }
 }

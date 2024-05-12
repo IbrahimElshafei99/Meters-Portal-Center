@@ -20,7 +20,13 @@ namespace PortalUploadingMeterData.Controllers
             _meterService = meterService;
         }
 
-        [HttpPatch]
+        [HttpGet("")]
+        public IActionResult Get()
+        {
+            return Ok("Done");
+        }
+
+        [HttpPost]
         public async Task<IActionResult> GetMeterInfo(string compName, string Serial)
         {
             var meter = await _meterService.GetMeterDetailsBySerial(compName, Serial);
