@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using PortalUploadingMeterData.Models;
+using System.Drawing.Printing;
 using System.Reflection.PortableExecutable;
 using System.Text;
 
@@ -19,18 +20,19 @@ namespace PortalUploadingMeterData.Controllers
         }
     
         private static IEnumerable<MeterData> listOfMeters = new List<MeterData>();
-        public async Task<IActionResult> MetersList(int id)
+        public async Task<IActionResult> MetersList(int id, int? pageNumber)
         {
-            if(id == 0)
+            int pageSize = 3;
+            if (id == 0)
             {
-                return View(listOfMeters);
+                return View(PaginatedList<MeterData>.Create(listOfMeters.ToList(), pageNumber ?? 1, pageSize));
             }
             var meters = await _meterService.GetMetersByRecordId(id);
             if(meters == null)
             {
                 return View("NotFound");
             }
-            return View(meters);
+            return View(PaginatedList<MeterData>.Create(meters.ToList(), pageNumber ?? 1, pageSize));
         }
 
         [HttpPost]

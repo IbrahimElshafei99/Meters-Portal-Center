@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MetersCenter.Data.MeterData>
+﻿@model PaginatedList<MetersCenter.Data.MeterData>
 
 @{
     ViewData["Title"] = "Meters List";
@@ -11,8 +11,9 @@
     }
 }
 
+
 <div class="container">
-    <h1 class="text-center mb-4">MetersList</h1>
+    <h1 class="text-center mb-4">Meters List For Supply @TempData["supplyId"]</h1>
     @if (TempData["SuccessMetersRows"] != null)
     {
         <h3 class="text-center mb-4">Success Upload @TempData["SuccessMetersRows"] Meters</h3>
@@ -31,9 +32,9 @@
     <table class="table">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.MeterSerial)</th>
-                <th>@Html.DisplayNameFor(model => model.MeterPublicKey)</th>
-                <th>@Html.DisplayNameFor(model => model.SuppliesId)</th>
+                <th>Meter Serial</th>
+                <th>Meter Public Key</th>
+                @* <th>Supplies Id</th> *@
                 <th></th>
             </tr>
         </thead>
@@ -43,7 +44,7 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.MeterSerial)</td>
                     <td>@Html.DisplayFor(modelItem => item.MeterPublicKey)</td>
-                    <td>@Html.DisplayFor(modelItem => item.SuppliesId)</td>
+                    @* <td>@Html.DisplayFor(modelItem => item.SuppliesId)</td> *@
                     <td>
                         <a asp-action="Edit" class="btn btn-outline-info">Edit</a>
                         <a asp-action="Details" class="btn btn-outline-info">Details</a>
@@ -54,6 +55,15 @@
         </tbody>
     </table>
 </div>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<br />
+<a asp-action="MetersList" asp-route-id="@TempData["supplyId"]" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-default @prevDisabled">Previous</a>
+<a asp-action="MetersList" asp-route-id="@TempData["supplyId"]" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-default @nextDisabled">Next</a>
+<br />
 
 <style>
     .container {

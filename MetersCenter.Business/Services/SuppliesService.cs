@@ -10,6 +10,7 @@ using MetersCenter.Core_.Contexts;
 using Microsoft.EntityFrameworkCore;
 using MetersCenter.Business.Interfaces;
 using MetersCenter.Core_.Interfaces;
+using System.IO;
 
 namespace MetersCenter.Business.Services
 {
@@ -106,6 +107,11 @@ namespace MetersCenter.Business.Services
         {
             return await _suppliesRepo.GetAllSupplies();
         }
+
+        //public async void DocumentUpload(Stream excelFileStream)
+        //{
+        //    await SingleFile.CopyToAsync(excelFileStream);
+        //}
 
         public async Task<Supplies> EditSupply(Supplies supply)
         {

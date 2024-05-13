@@ -38,14 +38,15 @@ namespace PortalUploadingMeterData.Controllers
         }
 
         private static IEnumerable<Supplies> ListOfSupplies = new List<Supplies>();
-        public async Task<IActionResult> GetAllSupplies()
+        public async Task<IActionResult> GetAllSupplies(int? pageNumber)
         {
+            int pageSize = 3;
             if(ListOfSupplies.Any())
             {
-                return View(ListOfSupplies);
+                return View(PaginatedList<Supplies>.Create(ListOfSupplies.ToList(), pageNumber ?? 1, pageSize));
             }
             var supps = await _suppliesService.GetAllSupplies();
-            return View(supps);
+            return View(PaginatedList<Supplies>.Create(supps.ToList(), pageNumber?? 1, pageSize));
         }
         //public async Task<IActionResult> SuppliesList(int id)
         //{
