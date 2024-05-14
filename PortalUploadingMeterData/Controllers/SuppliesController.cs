@@ -1,6 +1,7 @@
 ﻿using MetersCenter.Business.Interfaces;
 using MetersCenter.Data;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace PortalUploadingMeterData.Controllers
 {
@@ -12,7 +13,7 @@ namespace PortalUploadingMeterData.Controllers
             _suppliesService = suppliesService;
         }
 
-        public IActionResult UploadExcel()
+        public IActionResult UploadExcel() 
         {
             return View();
         }
@@ -72,11 +73,22 @@ namespace PortalUploadingMeterData.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditSupply([Bind("Id,status")]Supplies supply)
+        [RequestSizeLimit(10000000)]
+        public async Task<IActionResult> EditSupply([Bind("Id,status")]Supplies supply, IFormFile docFile)
         {
-            if(ModelState.IsValid)
+            if(docFile!=null)
             {
-                await _suppliesService.EditSupply(supply);
+                var permittedExtensions = new[] { ".docx" };
+                var extension = Path.GetExtension(docFile.FileName).ToLowerInvariant();
+                if (string.IsNullOrEmpty(extension) || !permittedExtensions.Contains(extension))
+                {
+                    ModelState.AddModelError("", "Invalid file type.");
+                }
+            }
+            
+            if (ModelState.IsValid)
+            {
+                await _suppliesService.EditSupply(supply, docFile);
                 return RedirectToAction("GetAllSupplies");
             }
             return View(supply);

@@ -1,4 +1,5 @@
 ﻿using MetersCenter.Data;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace MetersCenter.Core_.Interfaces
         Task<Supplies> AddSupply(Supplies supply);
         Task<Supplies> AttachSupply(Supplies supply);
         Task<IEnumerable<Supplies>> GetAllSupplies();
-        Task<Supplies> EditSupply(Supplies supply);
+        Task<Supplies> EditSupply(Supplies supply, IFormFile docFile);
         Task<Supplies> GetSupplyID(int id);
         IEnumerable<Supplies> GetSuppliesByProviderName(string name);
         Task<IEnumerable<Supplies>> GetSuppliesByIdAndProviderName(string name, int id);

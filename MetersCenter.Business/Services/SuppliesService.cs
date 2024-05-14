@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using MetersCenter.Business.Interfaces;
 using MetersCenter.Core_.Interfaces;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace MetersCenter.Business.Services
 {
@@ -113,9 +114,9 @@ namespace MetersCenter.Business.Services
         //    await SingleFile.CopyToAsync(excelFileStream);
         //}
 
-        public async Task<Supplies> EditSupply(Supplies supply)
+        public async Task<Supplies> EditSupply(Supplies supply, IFormFile docFile)
         {
-            return await _suppliesRepo.EditSupply(supply);
+            return await _suppliesRepo.EditSupply(supply, docFile);
         }
 
         public async Task<Supplies> GetSupplyID(int id)

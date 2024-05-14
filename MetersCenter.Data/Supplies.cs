@@ -18,8 +18,8 @@ namespace MetersCenter.Data
         public DateTime InspectionEndDate { get; set; }
         public string? InspectorUsername { get; set; }
 
-        //public string? DocumentName { get; set; }
-        //public byte[]? Data { get; set; }
+        public string? DocumentName { get; set; }
+        public byte[]? Data { get; set; }
 
         [Required]
         public int MeterProviderId { get; set; }
