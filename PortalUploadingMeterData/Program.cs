@@ -7,9 +7,13 @@ using MetersCenter.Core_.Interfaces;
 using MetersCenter.Core_.Repos;
 using MetersCenter.Business.Interfaces;
 using MetersCenter.Business.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpClient();
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
@@ -22,8 +26,37 @@ builder.Services.AddScoped(typeof(IMeterService), typeof(MeterService));
 builder.Services.AddScoped(typeof(ISuppliesRepo), typeof(SuppliesRepo));
 builder.Services.AddScoped(typeof(ISuppliesService), typeof(SuppliesService));
 builder.Services.AddScoped(typeof(IMeterProviderRepo), typeof(MeterProviderRepo));
+builder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//})
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            //////
+//        };
+//        options.Events = new JwtBearerEvents
+//        {
+//            OnMessageReceived = context =>
+//            {
+//                var accessToken = context.Request.Cookies["token"];
+
+//                if (!string.IsNullOrEmpty(accessToken))
+//                {
+//                    context.Token = accessToken;
+//                }
+
+//                return Task.CompletedTask;
+//            }
+//        };
+//    });
+
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -45,7 +78,7 @@ app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Supplies}/{action=UploadExcel}/{id?}");
+    pattern: "{controller=Login}/{action=AdminLogin}/{id?}");
 
 
 app.Run();
