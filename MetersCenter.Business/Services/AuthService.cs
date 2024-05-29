@@ -31,7 +31,7 @@ namespace MetersCenter.Business.Services
                 return result.Token;
             }
 
-            return null;
+            return null; 
         }
     }
 

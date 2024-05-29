@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using MetersCenter.Business.Interfaces;
 using Newtonsoft.Json;
+using MetersCenter.Data;
 
 namespace PortalUploadingMeterData.Controllers
 {
@@ -31,43 +32,56 @@ namespace PortalUploadingMeterData.Controllers
         public async Task<IActionResult> AdminLogin(string username, string pass)
         {
             var token = await _authService.GetToken(username, pass);
-
-            if (token != null)
+            if(ModelState.IsValid)
             {
-                //TempData["adminUsername"] = username; // If we want to save the username in database
-                return RedirectToAction("UploadExcel", "Supplies");
+                if (token != null)
+                {
+                    var handler = new JwtSecurityTokenHandler();
+                    var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+                    var claims = jsonToken.Claims.ToList();
+
+                    claims.Add(new Claim(ClaimTypes.Name, username));
+                    claims.Add(new Claim("JWT", token));
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    };
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity),
+                        authProperties);
+
+                    TempData["Username"] = username; // If we want to save the username in database
+                    
+                    //return RedirectToAction("GetAllSupplies", "Supplies");
+                    if (User.Claims.FirstOrDefault(c => c.Type.Contains("role"))?.Value == "Admin")
+                    {
+                        return RedirectToAction("GetAllSupplies", "Supplies");
+                    }
+                    else if (User.Claims.FirstOrDefault(c => c.Type.Contains("role"))?.Value == "User")
+                    {
+                        return RedirectToAction("UploadExcel", "Supplies");
+                    }
+
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                
+
             }
             return View();
 
-            /*Response.Cookies.Append("token", token);
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:44310/");
+        }
 
-                HttpResponseMessage response = await client.GetAsync("Authenticate/Login");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var token = await response.Content.ReadFromJsonAsync<JsonSerializerContext>();
-                    var jsonToken = new JwtSecurityTokenHandler().ReadToken(token) as JwtSecurityToken;
-                    var username = jsonToken.Claims.FirstOrDefault(m => m.Type == ClaimTypes.Name).Value;
-
-                    if (username == user.Name)
-                    {
-                        var claims = new Claim[]
-                        {
-                            new Claim(ClaimTypes.Name, user.Name),
-                        };
-                        var claimsIdentity = new ClaimsIdentity(claims);
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Internal server Error");
-                }
-            }
-            */
+        [HttpPost]
+        [ResponseCache(NoStore = true, Duration = 0)]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("AdminLogin", "Login");
         }
 
 

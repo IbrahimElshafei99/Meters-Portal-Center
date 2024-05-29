@@ -10,10 +10,14 @@ using MetersCenter.Business.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Options;
+using System.Text;
+using PortalUploadingMeterData;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
@@ -27,33 +31,51 @@ builder.Services.AddScoped(typeof(ISuppliesRepo), typeof(SuppliesRepo));
 builder.Services.AddScoped(typeof(ISuppliesService), typeof(SuppliesService));
 builder.Services.AddScoped(typeof(IMeterProviderRepo), typeof(MeterProviderRepo));
 builder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
+builder.Services.AddScoped(typeof(IProtectedData), typeof(ProtectedData));
 
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//})
-//    .AddJwtBearer(options =>
-//    {
-//        options.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            //////
-//        };
-//        options.Events = new JwtBearerEvents
-//        {
-//            OnMessageReceived = context =>
-//            {
-//                var accessToken = context.Request.Cookies["token"];
+/*builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = configuration["Jwt:Issuer"],
+            ValidAudience = configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
 
-//                if (!string.IsNullOrEmpty(accessToken))
-//                {
-//                    context.Token = accessToken;
-//                }
+        };
+        //options.Events = new JwtBearerEvents
+        //{
+        //    OnMessageReceived = context =>
+        //    {
+        //        var accessToken = context.Request.Cookies["token"];
 
-//                return Task.CompletedTask;
-//            }
-//        };
-//    });
+        //        if (!string.IsNullOrEmpty(accessToken))
+        //        {
+        //            context.Token = accessToken;
+        //        }
 
+        //        return Task.CompletedTask;
+        //    }
+        //};
+    });*/
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(options =>
+        {
+            options.LoginPath = "/Login/AdminLogin";
+            //options.AccessDeniedPath = "/Login/AdminLogin";
+        });
+
+builder.Services.AddAuthorization();
+builder.Services.AddAntiforgery();
 
 var app = builder.Build();
 
@@ -71,10 +93,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+//app.UseMiddleware<JWTMiddleware>(); 
 
-app.UseEndpoints(endpoints =>endpoints.MapControllers());
-app.MapControllers();
+//app.UseEndpoints(endpoints =>endpoints.MapControllers());
+//app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",

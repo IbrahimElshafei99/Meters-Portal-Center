@@ -1,10 +1,12 @@
 ﻿using MetersCenter.Business.Interfaces;
 using MetersCenter.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
 namespace PortalUploadingMeterData.Controllers
 {
+    [Authorize]
     public class SuppliesController : Controller
     {
         private readonly ISuppliesService _suppliesService;
@@ -13,11 +15,12 @@ namespace PortalUploadingMeterData.Controllers
             _suppliesService = suppliesService;
         }
 
+        [Authorize(Roles = "User")]
         public IActionResult UploadExcel() 
         {
             return View();
         }
-
+        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> UploadExcel(IFormFile file)
         {
@@ -39,6 +42,7 @@ namespace PortalUploadingMeterData.Controllers
         }
 
         private static IEnumerable<Supplies> ListOfSupplies = new List<Supplies>();
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllSupplies(int? pageNumber)
         {
             int pageSize = 3;
@@ -55,6 +59,7 @@ namespace PortalUploadingMeterData.Controllers
         //    return View(supps);
         //}
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> FilterSupplies(string providerName, int supplyId)
         {
@@ -66,12 +71,14 @@ namespace PortalUploadingMeterData.Controllers
             return RedirectToAction("GetAllSupplies", "Supplies");
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditSupply(int id)
         {
             var supply = await _suppliesService.GetSupplyID(id);
             return View(supply);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [RequestSizeLimit(10000000)]
         public async Task<IActionResult> EditSupply([Bind("Id,status")]Supplies supply, IFormFile docFile)
