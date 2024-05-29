@@ -27,14 +27,16 @@ namespace MetersCenter.Business.Services
             _meterProviderRepo = meterProviderRepo;
         }
 
-        public async Task<(int ,int)> UploadExcelSheet(Stream excelFileStream, string providerName)
+        public async Task<(int ,int)> UploadExcelSheet(Stream excelFileStream, string providerName, string username, string userId)
         {
             var compId = await _meterProviderRepo.GetProviderIdByName(providerName);
             Supplies supplies = new Supplies()
             {
                 status = "New",
                 UploadDate = DateTime.Now,
-                MeterProviderId = compId
+                MeterProviderId = compId,
+                UploadUsername = username,
+                UserId = userId
             };
             supplies = await _suppliesRepo.AddSupply(supplies);
 

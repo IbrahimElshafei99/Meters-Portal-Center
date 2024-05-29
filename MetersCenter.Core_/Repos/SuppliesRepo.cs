@@ -57,13 +57,14 @@ namespace MetersCenter.Core_.Repos
             Supplies newSupply = await _context.Supplies.FirstOrDefaultAsync(x=>x.Id == supply.Id);
             if (newSupply != null)
             {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads", docFile.FileName);
-                using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-                {
-                    await docFile.CopyToAsync(stream);
-                }
                 if (!(docFile == null || docFile.Length == 0))
                 {
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads", docFile.FileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                    {
+                        await docFile.CopyToAsync(stream);
+                    }
+                
                     newSupply.DocumentName = docFile.FileName;
                     newSupply.Data = ConvertToByteArray(filePath);
                 }

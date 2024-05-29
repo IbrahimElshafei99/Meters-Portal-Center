@@ -39,6 +39,8 @@ namespace PortalUploadingMeterData.Controllers
                     var handler = new JwtSecurityTokenHandler();
                     var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
                     var claims = jsonToken.Claims.ToList();
+                    var id = claims[2].Value;
+                    var nameOfUser = claims[0].Value;
 
                     claims.Add(new Claim(ClaimTypes.Name, username));
                     claims.Add(new Claim("JWT", token));
@@ -54,8 +56,9 @@ namespace PortalUploadingMeterData.Controllers
                         new ClaimsPrincipal(claimsIdentity),
                         authProperties);
 
-                    TempData["Username"] = username; // If we want to save the username in database
-                    
+                    TempData["Username"] = nameOfUser; // To save the username in database
+                    TempData["UserId"] = id;           // To save the id in database
+
                     //return RedirectToAction("GetAllSupplies", "Supplies");
                     if (User.Claims.FirstOrDefault(c => c.Type.Contains("role"))?.Value == "Admin")
                     {

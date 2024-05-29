@@ -10,7 +10,7 @@ namespace MetersCenter.Business.Interfaces
 {
     public interface ISuppliesService
     {
-        Task<(int, int)> UploadExcelSheet(Stream excelFileStream, string providerName);
+        Task<(int, int)> UploadExcelSheet(Stream excelFileStream, string providerName, string username, string userId);
         Task<Supplies> AddSupply(Supplies supply);
         Task<Supplies> AttachSupply(Supplies supply);
         Task<IEnumerable<Supplies>> GetAllSupplies();

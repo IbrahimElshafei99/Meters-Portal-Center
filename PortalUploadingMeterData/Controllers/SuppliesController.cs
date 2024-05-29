@@ -24,6 +24,19 @@ namespace PortalUploadingMeterData.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadExcel(IFormFile file)
         {
+            string id;
+            string username;
+            if(TempData["UserId"]!=null && TempData["Username"] != null)
+            {
+                username = TempData["Username"].ToString();
+                id = TempData["UserId"].ToString();
+            }
+            else
+            {
+                username = "";
+                id = "";
+            }
+            
             var compName = Request.Form["LogOffTime"].ToString();
             if (file == null || file.Length == 0)
             {
@@ -31,7 +44,7 @@ namespace PortalUploadingMeterData.Controllers
             }
             try
             {
-                var uploadedMeters = await _suppliesService.UploadExcelSheet(file.OpenReadStream(), compName);
+                var uploadedMeters = await _suppliesService.UploadExcelSheet(file.OpenReadStream(), compName, username, id);
                 TempData["SuccessMetersRows"] = uploadedMeters.Item1;
                 return RedirectToAction("MetersList", "Meter", new { id = uploadedMeters.Item2 });
             }
@@ -59,6 +72,30 @@ namespace PortalUploadingMeterData.Controllers
         //    return View(supps);
         //}
 
+        
+        [HttpGet]
+        public async Task<IActionResult> Download(int suppId, string fileName)
+        {
+            var supply = await _suppliesService.GetSupplyID(suppId);
+            var file = supply.Data;
+            if (file == null)
+                return View("NotFound");
+            string mimeType = GetMimeType(fileName);
+            return File(file, mimeType,fileName);
+        }
+
+        private string GetMimeType(string fileName)
+        {
+            var extension = System.IO.Path.GetExtension(fileName).ToLowerInvariant();
+
+            return extension switch
+            {
+                ".docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                ".doc" => "application/msword",
+                _ => "application/octet-stream",
+            };
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> FilterSupplies(string providerName, int supplyId)
@@ -83,7 +120,7 @@ namespace PortalUploadingMeterData.Controllers
         [RequestSizeLimit(10000000)]
         public async Task<IActionResult> EditSupply([Bind("Id,status")]Supplies supply, IFormFile docFile)
         {
-            if(docFile!=null)
+            if(docFile!=null && supply.status != "New")
             {
                 var permittedExtensions = new[] { ".docx" };
                 var extension = Path.GetExtension(docFile.FileName).ToLowerInvariant();
@@ -91,14 +128,12 @@ namespace PortalUploadingMeterData.Controllers
                 {
                     ModelState.AddModelError("", "Invalid file type.");
                 }
-            }
-            
-            if (ModelState.IsValid)
-            {
                 await _suppliesService.EditSupply(supply, docFile);
                 return RedirectToAction("GetAllSupplies");
             }
             return View(supply);
+            
+
         }
     }
 }

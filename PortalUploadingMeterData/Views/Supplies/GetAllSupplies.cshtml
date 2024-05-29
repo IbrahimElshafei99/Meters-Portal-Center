@@ -28,6 +28,7 @@
                 <th>Created Date</th>
                 <th>User</th>
                 <th>Status</th>
+                <th>Inspection File</th>
                 <th>Meter Provider</th>
                 <th></th>
             </tr>
@@ -40,6 +41,20 @@
                     <td>@Html.DisplayFor(modelItem => item.UploadDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.UploadUsername)</td>
                     <td>@Html.DisplayFor(modelItem => item.status)</td>
+                    @{
+                        if (item.DocumentName != null)
+                        {
+                            <td>
+                                <a asp-controller="Supplies" asp-action="Download" asp-route-suppId="@item.Id" asp-route-fileName="@item.DocumentName">Download</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                            
+                    }
+                    
                     @{
                         if (item.MeterProviders != null)
                         {
