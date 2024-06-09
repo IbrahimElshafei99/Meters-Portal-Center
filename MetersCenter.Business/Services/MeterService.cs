@@ -30,11 +30,16 @@ namespace MetersCenter.Business.Services
             return await _dataRepo.GetById(id);
         }
 
+<<<<<<< HEAD
         public async Task<IEnumerable<MeterData>> GetMetersByRecordId(int id)
+=======
+        public IEnumerable<MeterData> GetMetersByRecordId(int id)
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
         {
             return await _dataRepo.GetMetersByRecordId(id);
         }
 
+<<<<<<< HEAD
         public async Task<IEnumerable<MeterData>> GetMetersBySerial(string serial, int suppId)
         {
             return await _dataRepo.GetMetersBySerial(serial, suppId);
@@ -42,6 +47,10 @@ namespace MetersCenter.Business.Services
 
         public async Task<IEnumerable<object>> GetMeterDetailsBySerial(string providerName ,string serial)
         {
+=======
+        public async Task<IEnumerable<object>> GetMeterDetailsBySerial(string providerName ,string serial)
+        {
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
             var supps = _suppliesRepo.GetSuppliesByProviderName(providerName);
 
             return await _dataRepo.GetMeterDetailsBySerial(supps, serial);

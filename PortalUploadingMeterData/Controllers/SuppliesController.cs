@@ -1,4 +1,5 @@
 ﻿using MetersCenter.Business.Interfaces;
+
 using MetersCenter.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,9 +47,14 @@ namespace PortalUploadingMeterData.Controllers
             {
                 var uploadedMeters = await _suppliesService.UploadExcelSheet(file.OpenReadStream(), compName, username, id);
                 TempData["SuccessMetersRows"] = uploadedMeters.Item1;
+
                 return RedirectToAction("MetersList", "Meter", new { id = uploadedMeters.Item2 });
             }
             catch (Exception ex) 
+
+                return RedirectToAction("MetersList", "Meter", uploadedMeters.Item2.Where(x => true).Select(x => x.SuppliesId));
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, $"Error uploading file: {ex.Message}");
             }
