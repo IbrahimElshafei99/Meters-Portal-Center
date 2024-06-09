@@ -21,4 +21,11 @@
     <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MetersCenter.API\MetersCenter.API.csproj" />
+    <ProjectReference Include="..\MetersCenter.Business\MetersCenter.Business.csproj" />
+    <ProjectReference Include="..\MetersCenter.Core_\MetersCenter.Core_.csproj" />
+    <ProjectReference Include="..\MetersCenter.Data\MetersCenter.Data.csproj" />
+  </ItemGroup>
+
 </Project>
