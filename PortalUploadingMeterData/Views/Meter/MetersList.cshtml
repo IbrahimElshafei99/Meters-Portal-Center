@@ -1,7 +1,6 @@
 ﻿@model PaginatedList<MetersCenter.Data.MeterData>
 
 @{
-<<<<<<< HEAD
     ViewData["Title"] = "Meters List";
 }
 @{
@@ -10,9 +9,7 @@
     {
         TempData["supplyId"] = m;
     }
-=======
     ViewData["Title"] = "MetersList";
->>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
 }
 
 
@@ -22,7 +19,6 @@
     {
         <h3 class="text-center mb-4">Success Upload @TempData["SuccessMetersRows"] Meters</h3>
     }
-<<<<<<< HEAD
 
     <form asp-controller="Meter" asp-action="FilterMeters" asp-route-suppId="@TempData["supplyId"]" method="post" class="mb-4">
         <div class="form-inline">
@@ -33,8 +29,6 @@
             <button type="submit" class="btn btn-dark">Search</button>
         </div>
     </form>
-=======
->>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
     
     <table class="table">
         <thead>

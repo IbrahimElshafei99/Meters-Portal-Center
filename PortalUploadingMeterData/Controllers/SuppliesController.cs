@@ -50,10 +50,10 @@ namespace PortalUploadingMeterData.Controllers
 
                 return RedirectToAction("MetersList", "Meter", new { id = uploadedMeters.Item2 });
             }
-            catch (Exception ex) 
+            //catch (Exception ex) 
 
-                return RedirectToAction("MetersList", "Meter", uploadedMeters.Item2.Where(x => true).Select(x => x.SuppliesId));
-            }
+            //    return RedirectToAction("MetersList", "Meter", uploadedMeters.Item2.Where(x => true).Select(x => x.SuppliesId));
+            //}
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error uploading file: {ex.Message}");

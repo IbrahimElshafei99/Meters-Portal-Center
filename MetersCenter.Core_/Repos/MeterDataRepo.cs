@@ -31,17 +31,12 @@ namespace MetersCenter.Core_.Repos
             return result;
         }
 
-<<<<<<< HEAD
         public async Task<IEnumerable<MeterData>> GetMetersByRecordId(int id)
-=======
-        public IEnumerable<MeterData> GetMetersByRecordId(int id)
->>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
         {
             var meters = await _context.MeterData.Where(x => x.SuppliesId == id).ToListAsync();
             return meters;
         }
 
-<<<<<<< HEAD
         public async Task<IEnumerable<MeterData>> GetMetersBySerial(string serial, int suppId)
         {
             var meters = await _context.MeterData.Where(x=>x.MeterSerial == serial && x.SuppliesId==suppId).ToListAsync();
@@ -50,10 +45,6 @@ namespace MetersCenter.Core_.Repos
 
         public async Task<List<object>> GetMeterDetailsBySerial(IEnumerable<Supplies>supplies, string serial)
         {
-=======
-        public async Task<List<object>> GetMeterDetailsBySerial(IEnumerable<Supplies>supplies, string serial)
-        {
->>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
             List<object> meterDetails = new List<object>();
             foreach(var s in supplies)
             {
