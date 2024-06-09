@@ -28,8 +28,7 @@ namespace PortalUploadingMeterData.Controllers
             {
                 return View(PaginatedList<MeterData>.Create(listOfMeters.ToList(), pageNumber ?? 1, pageSize));
             }
-            var meters = _meterService.GetMetersByRecordId(id);
-
+            var meters = await _meterService.GetMetersByRecordId(id);
             if (meters == null)
             {
                 return View("NotFound");
