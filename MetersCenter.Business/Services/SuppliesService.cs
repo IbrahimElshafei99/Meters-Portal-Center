@@ -10,6 +10,8 @@ using MetersCenter.Core_.Contexts;
 using Microsoft.EntityFrameworkCore;
 using MetersCenter.Business.Interfaces;
 using MetersCenter.Core_.Interfaces;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace MetersCenter.Business.Services
 {
@@ -25,18 +27,19 @@ namespace MetersCenter.Business.Services
             _meterProviderRepo = meterProviderRepo;
         }
 
-<<<<<<< HEAD
-        public async Task<(int ,int)> UploadExcelSheet(Stream excelFileStream, string providerName)
-=======
+        public async Task<(int ,int)> UploadExcelSheet(Stream excelFileStream, string providerName, string username, string userId)
+
         public async Task<(int ,IEnumerable<MeterData>)> UploadExcelSheet(Stream excelFileStream, string providerName)
->>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
+
         {
             var compId = await _meterProviderRepo.GetProviderIdByName(providerName);
             Supplies supplies = new Supplies()
             {
                 status = "New",
                 UploadDate = DateTime.Now,
-                MeterProviderId = compId
+                MeterProviderId = compId,
+                UploadUsername = username,
+                UserId = userId
             };
             supplies = await _suppliesRepo.AddSupply(supplies);
 
@@ -90,14 +93,13 @@ namespace MetersCenter.Business.Services
 
             int successRows = batchSerials.Count();
             return (successRows, supplies.Id);
-=======
+
             var allMetersInRecord = _meterDataRepo.GetMetersByRecordId(supplies.Id);
             supplies.MeterData = allMetersInRecord.ToList();
             await _suppliesRepo.AttachSupply(supplies);
 
             int successRows = batchSerials.Count();
             return (successRows, allMetersInRecord);
->>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
         }
         //private void SaveBatchData(List<Data.MeterData> batch)
         //{
@@ -120,9 +122,14 @@ namespace MetersCenter.Business.Services
             return await _suppliesRepo.GetAllSupplies();
         }
 
-        public async Task<Supplies> EditSupply(Supplies supply)
+        //public async void DocumentUpload(Stream excelFileStream)
+        //{
+        //    await SingleFile.CopyToAsync(excelFileStream);
+        //}
+
+        public async Task<Supplies> EditSupply(Supplies supply, IFormFile docFile)
         {
-            return await _suppliesRepo.EditSupply(supply);
+            return await _suppliesRepo.EditSupply(supply, docFile);
         }
 
         public async Task<Supplies> GetSupplyID(int id)
@@ -138,6 +145,11 @@ namespace MetersCenter.Business.Services
         public async Task<IEnumerable<Supplies>> GetSuppliesByIdAndProviderName(string name, int id)
         {
             return await _suppliesRepo.GetSuppliesByIdAndProviderName(name, id);
+        }
+
+        public async Task<string> GetProviderNameBySupplyId(int id)
+        {
+            return await _meterProviderRepo.GetProviderNameById(id);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetersCenter.Data
 {
@@ -13,10 +14,15 @@ namespace MetersCenter.Data
         public int Id { get; set; }
         public DateTime UploadDate { get; set; }
         public string? UploadUsername { get; set; }
+        [NotNull]
+        public string UserId { get; set; }
         public string? status { get; set; }
         public DateTime InspectionStartDate { get; set; }
         public DateTime InspectionEndDate { get; set; }
         public string? InspectorUsername { get; set; }
+
+        public string? DocumentName { get; set; }
+        public byte[]? Data { get; set; }
 
         [Required]
         public int MeterProviderId { get; set; }

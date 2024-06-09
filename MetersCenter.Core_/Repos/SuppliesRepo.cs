@@ -1,6 +1,7 @@
 ﻿using MetersCenter.Core_.Contexts;
 using MetersCenter.Core_.Interfaces;
 using MetersCenter.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,12 +38,37 @@ namespace MetersCenter.Core_.Repos
             return await _context.Supplies.Include(x=>x.MeterProviders).ToListAsync();
         }
 
-        public async Task<Supplies> EditSupply(Supplies supply)
+        private byte[] ConvertToByteArray(string filePath)
+        {
+            byte[] fileData;
+
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (BinaryReader reader = new BinaryReader(fs))
+                {
+                    fileData = reader.ReadBytes((int)fs.Length);
+                }
+            }
+
+            return fileData;
+        }
+        public async Task<Supplies> EditSupply(Supplies supply, IFormFile docFile)
         {
             Supplies newSupply = await _context.Supplies.FirstOrDefaultAsync(x=>x.Id == supply.Id);
             if (newSupply != null)
             {
-                if(supply.status == "In Progress")
+                if (!(docFile == null || docFile.Length == 0))
+                {
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads", docFile.FileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                    {
+                        await docFile.CopyToAsync(stream);
+                    }
+                
+                    newSupply.DocumentName = docFile.FileName;
+                    newSupply.Data = ConvertToByteArray(filePath);
+                }
+                if (supply.status == "In Progress")
                 {
                     newSupply.InspectionStartDate = DateTime.Now;
                     newSupply.status = supply.status;
