@@ -1,9 +1,7 @@
 ﻿using ExcelDataReader;
 using MetersCenter.Business.Interfaces;
-<<<<<<< HEAD
+
 using MetersCenter.Data;
-=======
->>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -20,36 +18,30 @@ namespace PortalUploadingMeterData.Controllers
         {
             _meterService = meterService;
         }
-    
-<<<<<<< HEAD
+
         private static IEnumerable<MeterData> listOfMeters = new List<MeterData>();
         public async Task<IActionResult> MetersList(int id)
         {
-            if(id == 0)
+            if (id == 0)
             {
                 return View(listOfMeters);
             }
-            var meters = await _meterService.GetMetersByRecordId(id);
-=======
-        public IActionResult MetersList(int id)
-        {
             var meters = _meterService.GetMetersByRecordId(id);
->>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
-            if(meters == null)
+
+            if (meters == null)
             {
                 return View("NotFound");
             }
             return View(meters);
         }
 
-<<<<<<< HEAD
         [HttpPost]
         public async Task<IActionResult> FilterMeters(string serial, int suppId)
         {
             listOfMeters = await _meterService.GetMetersBySerial(serial, suppId);
             return RedirectToAction("MetersList", new { id = 0 });
         }
-=======
+
         //    private readonly AppDbContext _context;
 
         //    public MeterController(AppDbContext context)
@@ -165,9 +157,10 @@ namespace PortalUploadingMeterData.Controllers
         //        }
         //        return View(meter);
         //    }
->>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
 
 
 
+        //}
     }
+
 }
