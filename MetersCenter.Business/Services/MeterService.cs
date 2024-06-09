@@ -13,9 +13,11 @@ namespace MetersCenter.Business.Services
     public class MeterService : IMeterService
     {
         private readonly IMeterDataRepo _dataRepo;
-        public MeterService(IMeterDataRepo dataRepo)
+        private readonly ISuppliesRepo _suppliesRepo;
+        public MeterService(IMeterDataRepo dataRepo, ISuppliesRepo suppliesRepo)
         {
             _dataRepo = dataRepo;
+            _suppliesRepo = suppliesRepo;
         }
 
         public async Task<IEnumerable<MeterData>> AddMetersRange(IEnumerable<MeterData> meters)
@@ -28,14 +30,30 @@ namespace MetersCenter.Business.Services
             return await _dataRepo.GetById(id);
         }
 
-        public List<MeterData> GetMetersByRecordId(int id)
+<<<<<<< HEAD
+        public async Task<IEnumerable<MeterData>> GetMetersByRecordId(int id)
+=======
+        public IEnumerable<MeterData> GetMetersByRecordId(int id)
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
         {
-            return _dataRepo.GetMetersByRecordId(id);
+            return await _dataRepo.GetMetersByRecordId(id);
         }
 
-        public async Task<IEnumerable<MeterData>> GetMetersBySerial(string serial)
+<<<<<<< HEAD
+        public async Task<IEnumerable<MeterData>> GetMetersBySerial(string serial, int suppId)
         {
-            return await _dataRepo.GetMetersBySerial(serial);
+            return await _dataRepo.GetMetersBySerial(serial, suppId);
+        }
+
+        public async Task<IEnumerable<object>> GetMeterDetailsBySerial(string providerName ,string serial)
+        {
+=======
+        public async Task<IEnumerable<object>> GetMeterDetailsBySerial(string providerName ,string serial)
+        {
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
+            var supps = _suppliesRepo.GetSuppliesByProviderName(providerName);
+
+            return await _dataRepo.GetMeterDetailsBySerial(supps, serial);
         }
 
         public async Task<MeterData> UpdateMeter(int id, MeterData meter)

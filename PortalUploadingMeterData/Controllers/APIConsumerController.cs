@@ -1,7 +1,9 @@
 ﻿using MetersCenter.Core_.Contexts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MetersCenter.Business;
 using System;
+using MetersCenter.Business.Interfaces;
 
 namespace PortalUploadingMeterData.Controllers
 {
@@ -9,6 +11,26 @@ namespace PortalUploadingMeterData.Controllers
     [ApiController]
     public class APIConsumerController : ControllerBase
     {
+        private readonly ISuppliesService _suppliesService;
+        private readonly IMeterService _meterService;
+
+        public APIConsumerController(ISuppliesService suppliesService, IMeterService meterService)
+        {
+            _suppliesService = suppliesService;
+            _meterService = meterService;
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> GetMeterInfo(string compName, string Serial)
+        {
+            var meter = await _meterService.GetMeterDetailsBySerial(compName, Serial);
+            if (meter != null)
+            {
+                return Ok(meter);
+            }
+            else
+                return BadRequest("Meter Not Found");
+        }
 
         //private readonly ApplicationDbContext _context;
         //public APIConsumerController(ApplicationDbContext context)

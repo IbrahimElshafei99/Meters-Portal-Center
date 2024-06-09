@@ -17,45 +17,59 @@ namespace MetersCenter.Business.Services
     {
         private readonly ISuppliesRepo _suppliesRepo;
         private readonly IMeterDataRepo _meterDataRepo;
-        public SuppliesService(ISuppliesRepo repo, IMeterDataRepo meterDataRepo)
+        private readonly IMeterProviderRepo _meterProviderRepo;
+        public SuppliesService(ISuppliesRepo repo, IMeterDataRepo meterDataRepo, IMeterProviderRepo meterProviderRepo)
         {
             _suppliesRepo = repo;
             _meterDataRepo = meterDataRepo;
+            _meterProviderRepo = meterProviderRepo;
         }
 
-        public async void UploadExcelSheet(Stream excelFileStream)
+<<<<<<< HEAD
+        public async Task<(int ,int)> UploadExcelSheet(Stream excelFileStream, string providerName)
+=======
+        public async Task<(int ,IEnumerable<MeterData>)> UploadExcelSheet(Stream excelFileStream, string providerName)
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
         {
+            var compId = await _meterProviderRepo.GetProviderIdByName(providerName);
             Supplies supplies = new Supplies()
             {
                 status = "New",
-                UploadDate = DateTime.Now
+                UploadDate = DateTime.Now,
+                MeterProviderId = compId
             };
             supplies = await _suppliesRepo.AddSupply(supplies);
+
+            var batchSerials = new List<string>();
+            var failedRows = new List<int>();
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             using (var package = new ExcelPackage(excelFileStream))
             {
                 var worksheet = package.Workbook.Worksheets[0]; // Assuming data is in the first sheet
                 int rowCount = worksheet.Dimension.Rows;
                 int batchSize = 1000; // Define batch size
-                var batchSerials = new List<string>();
+                
 
                 for (int row = 2; row <= rowCount; row += batchSize)
                 {
                     int endRow = Math.Min(row + batchSize - 1, rowCount);
 
                     // Process data in batches
-                    var batchData = new List<Data.MeterData>();
+                    var batchData = new List<MeterData>();
 
                     for (int currentRow = row; currentRow <= endRow; currentRow++)
                     {
                         // Validate records
                         if (batchSerials.Contains(worksheet.Cells[currentRow, 1].Value.ToString()))
                         {
+                            failedRows.Add(currentRow);
                             continue;
                         }
 
                         // Extract data from Excel row and create MeterData objects
-                        var Meter = new Data.MeterData()
+                        var Meter = new MeterData()
                         {
                             MeterSerial = worksheet.Cells[currentRow, 1].Value.ToString(),
                             MeterPublicKey = worksheet.Cells[currentRow, 2].Value.ToString(),
@@ -69,9 +83,21 @@ namespace MetersCenter.Business.Services
                     await _meterDataRepo.AddMetersRange(batchData);
                 }
             }
+<<<<<<< HEAD
+            var allMetersInRecord = await _meterDataRepo.GetMetersByRecordId(supplies.Id);
+            supplies.MeterData = allMetersInRecord.ToList();
+            await _suppliesRepo.AttachSupply(supplies); 
+
+            int successRows = batchSerials.Count();
+            return (successRows, supplies.Id);
+=======
             var allMetersInRecord = _meterDataRepo.GetMetersByRecordId(supplies.Id);
-            supplies.MeterData = allMetersInRecord;
+            supplies.MeterData = allMetersInRecord.ToList();
             await _suppliesRepo.AttachSupply(supplies);
+
+            int successRows = batchSerials.Count();
+            return (successRows, allMetersInRecord);
+>>>>>>> 7c42d8df253d91854a6d3b0f9d4ec91eca4a23b3
         }
         //private void SaveBatchData(List<Data.MeterData> batch)
         //{
@@ -99,14 +125,14 @@ namespace MetersCenter.Business.Services
             return await _suppliesRepo.EditSupply(supply);
         }
 
-        public async Task<IEnumerable<Supplies>> GetSuppliesByID(int id)// can search by compId, serial,..
+        public async Task<Supplies> GetSupplyID(int id)
         {
-            return await _suppliesRepo.GetSuppliesByID(id);
+            return await _suppliesRepo.GetSupplyID(id);
         }
 
-        public async Task<IEnumerable<Supplies>> GetSuppliesByProviderName(string name)
+        public IEnumerable<Supplies> GetSuppliesByProviderName(string name)
         {
-            return await _suppliesRepo.GetSuppliesByProviderName(name);
+            return _suppliesRepo.GetSuppliesByProviderName(name);
         }
 
         public async Task<IEnumerable<Supplies>> GetSuppliesByIdAndProviderName(string name, int id)
