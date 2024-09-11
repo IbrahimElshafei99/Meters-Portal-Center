@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetersCenter.Core_", "Meter
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetersCenter.API", "MetersCenter.API\MetersCenter.API.csproj", "{2EB95777-A650-49EC-8D64-514C88ECDB63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{D5D8139B-0B63-4018-81C0-9326D1CC5C3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2EB95777-A650-49EC-8D64-514C88ECDB63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EB95777-A650-49EC-8D64-514C88ECDB63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EB95777-A650-49EC-8D64-514C88ECDB63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5D8139B-0B63-4018-81C0-9326D1CC5C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5D8139B-0B63-4018-81C0-9326D1CC5C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5D8139B-0B63-4018-81C0-9326D1CC5C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5D8139B-0B63-4018-81C0-9326D1CC5C3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

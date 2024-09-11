@@ -21,7 +21,7 @@ namespace MetersCenter.Core_.Repos
         public async Task<string> GetProviderNameById(int id)
         {
             return await _context.MeterProviders.Where(x => x.Id == id).Select(x => x.Name).FirstAsync();
-
+            
         }
 
         public async Task<string> GetProviderNameBySupplyId(int id)

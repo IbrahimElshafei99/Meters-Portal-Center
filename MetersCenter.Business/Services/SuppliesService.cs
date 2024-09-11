@@ -27,6 +27,7 @@ namespace MetersCenter.Business.Services
             _meterProviderRepo = meterProviderRepo;
         }
 
+
         public async Task<(int ,int)> UploadExcelSheet(Stream excelFileStream, string providerName, string username, string userId)
         {
             var compId = await _meterProviderRepo.GetProviderIdByName(providerName);
@@ -139,7 +140,15 @@ namespace MetersCenter.Business.Services
 
         public async Task<string> GetProviderNameBySupplyId(int id)
         {
-            return await _meterProviderRepo.GetProviderNameById(id);
+            try
+            {
+                var result = await _meterProviderRepo.GetProviderNameById(id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
     }
 }
