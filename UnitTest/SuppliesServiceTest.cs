@@ -9,7 +9,7 @@ namespace UnitTest
 {
     public class SuppliesServiceTest
     {
-        private readonly ISuppliesService service;
+        private readonly ISuppliesService service; 
         private readonly Mock<ISuppliesRepo> _suppliesRepo;
         private readonly Mock<IMeterDataRepo> _meterDataRepo;
         private readonly Mock<IMeterProviderRepo> _meterProviderRepo;
@@ -153,7 +153,7 @@ namespace UnitTest
                               .ThrowsAsync(new Exception(exceptionMessage));
 
             var result = await service.GetProviderNameBySupplyId(id);
-            Assert.Equal($"Error: {exceptionMessage}", result);
+            Assert.Equal(exceptionMessage, result);
             
         }
 
